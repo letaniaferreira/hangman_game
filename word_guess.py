@@ -148,19 +148,21 @@ def player_guessed_word(right_guesses, word):
             return False
     return True
 
-def calculate_player_score(player_name, remaining_guesses):
+def calculate_player_score(remaining_guesses):
     """
     Gets player name and calculates score for current round
-    :param player_name: a string
-    :param current_score: integer
-    :return: player score for current round and adds value to cumulative player score
+    :param remaining_guesses: integer
+    :return: player score for current round
+    >>> calculate_player_score(2)
+    20
+    >>> calculate_player_score(0)
+    0
+    >>> calculate_player_score(4)
+    40
+
     """
-    #get user name
-    #verify if user guessed word
-    #if not return zero
-    #if yes
-        # give user 10 pts
-        # get num of guesses remaining and multiply 10 by num of guesses remaining
+    score = 10 * remaining_guesses
+    return score
 
 
 def initialize_variables(current_word):
@@ -207,6 +209,7 @@ def run_game():
 
         if player_found_word:
             print('Great job, {}! You guessed the word!'.format(player_name))
+            print('You scored {} points in this round.'.format(calculate_player_score(remaining_guesses)))
         else:
             print('You did not get it this time, {}. The word was: {}.'.format(player_name, word))
 
