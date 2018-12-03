@@ -101,28 +101,30 @@ def append_to_right_guess(letter, word):
             right_guesses[location] = letter
 
 
-def is_letter_in_word(letter, word):
+def is_letter_in_word(letter, word, player_name):
     """
     Indicates if user guess in the word chosen by computer.
 
     :param letter: User guess
     :param word: Word chosen by computer to play game
     :return: Boolean
-    >>> is_letter_in_word('a', 'face')
-    Awesome job. The letter is in the word
+    >>> is_letter_in_word('a', 'face', 'Jones')
+    <BLANKLINE>
+    Awesome job, Jones. The letter a is in the word
     <BLANKLINE>
     True
-    >>> is_letter_in_word('a', 'house')
-    Sorry mate. The letter a is not in the word
+    >>> is_letter_in_word('a', 'house', 'Mary')
+    <BLANKLINE>
+    Sorry, Mary. The letter a is not in the word
     <BLANKLINE>
     False
     """
 
     if letter not in word:
-        print('Sorry mate. The letter ' + letter + ' is not in the word\n')
+        print('\nSorry, {}. The letter {} is not in the word\n'.format(player_name, letter))
         return False
     else:
-        print('Awesome job. The letter is in the word' + '\n')
+        print('\nAwesome job, {}. The letter {} is in the word\n'.format(player_name, letter))
         return True
 
 
@@ -146,6 +148,20 @@ def player_guessed_word(right_guesses, word):
             return False
     return True
 
+def calculate_player_score(player_name, remaining_guesses):
+    """
+    Gets player name and calculates score for current round
+    :param player_name: a string
+    :param current_score: integer
+    :return: player score for current round and adds value to cumulative player score
+    """
+    #get user name
+    #verify if user guessed word
+    #if not return zero
+    #if yes
+        # give user 10 pts
+        # get num of guesses remaining and multiply 10 by num of guesses remaining
+
 
 def initialize_variables(current_word):
     """
@@ -165,20 +181,22 @@ def run_game():
     """
     Game loop
     """
+    player_name = input('What is your name?\n')
+    print('Hello {}! Try to guess the word I am thinking of.\n'.format(player_name))
     start_game = True
     while start_game:
 
         initialize_variables(get_local_word())
-        print('\nThe word you are trying to guess has ' + str(size) + ' letters.')
+        print('The word you are trying to guess has {} letters.'.format(size))
 
         player_found_word = False
         guesses = 0
         while (len(wrong_guesses) < 6) and not player_found_word:
             remaining_guesses = 6 - guesses
-            print('You have ' + str(remaining_guesses) + ' guesses remaining\n')
-            letter = input('Choose a letter: \n')
+            print('You have {} guesses remaining\n'.format(remaining_guesses))
+            letter = input('Choose a letter: \n\n')
             if validate_input(letter):
-                if is_letter_in_word(letter, word):
+                if is_letter_in_word(letter, word, player_name):
                     append_to_right_guess(letter, word)
                 else:
                     wrong_guesses.append(letter)
@@ -188,9 +206,9 @@ def run_game():
                 print_word(right_guesses, show_guesses)
 
         if player_found_word:
-            print('Great job! You guessed the word!')
+            print('Great job, {}! You guessed the word!'.format(player_name))
         else:
-            print('You did not get it this time. The word was: ' + word)
+            print('You did not get it this time, {}. The word was: {}.'.format(player_name, word))
 
         new_round = input('Would you like to play again? Please enter yes or no (default: yes) > ')
         if new_round.lower() == 'no':
