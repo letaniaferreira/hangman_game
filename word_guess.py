@@ -1,5 +1,6 @@
 import random
 import requests
+import os
 
 word = ''
 size = len(word)
@@ -7,6 +8,7 @@ size = len(word)
 wrong_guesses = []
 right_guesses = [''] * size
 show_guesses = ''
+leaderboard_file = 'leaderboard'
 
 
 def get_word_from_api():
@@ -150,7 +152,7 @@ def player_guessed_word(right_guesses, word):
 
 def calculate_player_score(remaining_guesses):
     """
-    Gets player name and calculates score for current round
+    Calculates score for current round
     :param remaining_guesses: integer
     :return: player score for current round
     >>> calculate_player_score(2)
@@ -163,6 +165,30 @@ def calculate_player_score(remaining_guesses):
     """
     score = 10 * remaining_guesses
     return score
+
+def add_to_leaderboard(player, score):
+    """
+    Adds score for current round to player name in leaderboard
+    :param player: a string
+    :param score: player score for current round
+    :return: total player score
+    >>> add_to_leaderboard('Joe', 40)
+    40
+    """
+    # file looks like this:
+    # joe=40
+    # bob=50
+    leaderboard_score = 0
+    if os.path.isfile(leaderboard_file):
+        with open(leaderboard_file) as f:
+            leaderboard = f.read()
+        lines = leaderboard.split('\n')
+        for line in lines:
+            if line.startswith(player + '='):
+                words = line.split('=')
+                leaderboard_score = words[1]
+    #write new score
+    return leaderboard_score
 
 
 def initialize_variables(current_word):
