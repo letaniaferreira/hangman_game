@@ -27,8 +27,11 @@ def get_word_from_api():
     word = random.choice(words)
     return word
 
-#delete this
+
 def get_local_word():
+    """
+    Local function for offline use.
+    """
     words = ['house', 'casa']
     word = random.choice(words)
     return word
@@ -150,6 +153,7 @@ def player_guessed_word(right_guesses, word):
             return False
     return True
 
+
 def calculate_player_score(remaining_guesses):
     """
     Calculates score for current round
@@ -161,10 +165,10 @@ def calculate_player_score(remaining_guesses):
     0
     >>> calculate_player_score(4)
     40
-
     """
     score = 10 * remaining_guesses
     return score
+
 
 def add_to_leaderboard(player, score):
     """
@@ -198,6 +202,23 @@ def add_to_leaderboard(player, score):
         file.write(leaderboard)
 
     return leaderboard_score
+
+
+def show_top_five_on_leaderboard():
+    """
+    Prints the top 5 scores on leaderbaoard.
+    """
+    all_scores = []
+    with open(leaderboard_file, 'r') as file:
+        for line in file:
+            words = line.split('=')
+            leaderboard_score = int(words[1])
+            player = words[0]
+            all_scores.append((leaderboard_score, player))
+    print('Here are the current top 5 players in the leaderboard:')
+    sorted_scores = sorted(all_scores, reverse=True)[0:5]
+    for score, name in sorted_scores:
+        print('{} - {}'.format(name, score))
 
 
 def initialize_variables(current_word):
@@ -245,8 +266,10 @@ def run_game():
         if player_found_word:
             print('Great job, {}! You guessed the word!'.format(player_name))
             player_score = calculate_player_score(remaining_guesses)
-            print('You scored {} points in this round.'.format(player_score))
-            add_to_leaderboard(player_name, player_score)
+            print('You scored {} points in this round.\n'.format(player_score))
+            total_score = add_to_leaderboard(player_name, player_score)
+            show_top_five_on_leaderboard()
+            print('\nHere is your score in the leaderboard: {}'.format(total_score))
         else:
             print('You did not get it this time, {}. The word was: {}.'.format(player_name, word))
 
