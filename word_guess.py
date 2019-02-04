@@ -52,38 +52,65 @@ class LetterRound:
             return True
         return False
 
-    def player_guessed_word(self, right_guesses, word):
+    def player_guessed_word(self, right_guesses):
         """
         Checks if player guessed word.
 
         :param right_guesses: List containing user's right guesses
         :param word: Word chosen by computer to play game
         :return: Boolean
-        >>> letter_round = LetterRound('casa')
-        >>> letter_round.player_guessed_word([], 'house')
+        >>> letter_round = LetterRound('house')
+        >>> letter_round.player_guessed_word([])
         False
-        >>> letter_round.player_guessed_word(['a'], 'house')
+        >>> letter_round.player_guessed_word(['a'])
         False
-        >>> letter_round.player_guessed_word(['h', 'o', 'u', 's', 'e'], 'house')
+        >>> letter_round.player_guessed_word(['h', 'o', 'u', 's', 'e'])
         True
         """
 
-        for letter in word:
+        for letter in self.word:
             if letter not in right_guesses:
                 return False
         return True
 
-    def append_to_right_guess(self, letter, word):
+    def append_to_right_guess(self, letter):
         """
         Add correct guesses to right_guess list.
 
         :param letter: User guess
         :param word: Word chosen by computer to play game
         """
-        for index, character in enumerate(word):
+        for index, character in enumerate(self.word):
             if character == letter:
                 location = index
                 right_guesses[location] = letter
+
+    def is_letter_in_word(self, letter, player_name):
+        """
+        Indicates if user guess in the word chosen by computer.
+
+        :param letter: User guess
+        :param word: Word chosen by computer to play game
+        :return: Boolean
+        >>> letter_round = LetterRound('face')
+        >>> letter_round.is_letter_in_word('a', 'Jones')
+        <BLANKLINE>
+        Awesome job, Jones. The letter a is in the word
+        <BLANKLINE>
+        True
+        >>> letter_round.is_letter_in_word('z', 'Mary')
+        <BLANKLINE>
+        Sorry, Mary. The letter z is not in the word
+        <BLANKLINE>
+        False
+        """
+
+        if letter not in self.word:
+            print('\nSorry, {}. The letter {} is not in the word\n'.format(player_name, letter))
+            return False
+        else:
+            print('\nAwesome job, {}. The letter {} is in the word\n'.format(player_name, letter))
+            return True
 
 
 def get_word_from_api():
@@ -130,32 +157,6 @@ def print_word(right_guesses, show_guesses):
     print(wrong_guesses)
     print('\n')
 
-
-def is_letter_in_word(letter, word, player_name):
-    """
-    Indicates if user guess in the word chosen by computer.
-
-    :param letter: User guess
-    :param word: Word chosen by computer to play game
-    :return: Boolean
-    >>> is_letter_in_word('a', 'face', 'Jones')
-    <BLANKLINE>
-    Awesome job, Jones. The letter a is in the word
-    <BLANKLINE>
-    True
-    >>> is_letter_in_word('a', 'house', 'Mary')
-    <BLANKLINE>
-    Sorry, Mary. The letter a is not in the word
-    <BLANKLINE>
-    False
-    """
-
-    if letter not in word:
-        print('\nSorry, {}. The letter {} is not in the word\n'.format(player_name, letter))
-        return False
-    else:
-        print('\nAwesome job, {}. The letter {} is in the word\n'.format(player_name, letter))
-        return True
 
 
 def calculate_player_score(remaining_guesses):
@@ -259,12 +260,12 @@ def run_game():
             letter_round = LetterRound(word)
             letter = input('Choose a letter: \n\n')
             if letter_round.validate_input(letter):
-                if is_letter_in_word(letter, word, player_name):
-                    letter_round.append_to_right_guess(letter, word)
+                if letter_round.is_letter_in_word(letter, player_name):
+                    letter_round.append_to_right_guess(letter)
                 else:
                     wrong_guesses.append(letter)
                     guesses += 1
-                if letter_round.player_guessed_word(right_guesses, word):
+                if letter_round.player_guessed_word(right_guesses):
                     player_found_word = True
                 print_word(right_guesses, show_guesses)
 
