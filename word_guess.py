@@ -12,6 +12,8 @@ leaderboard_file = 'leaderboard'
 
 
 class LetterRound:
+    def __init__(self, word):
+        self.word = word
 
     def validate_input(self, letter):
         """
@@ -19,7 +21,7 @@ class LetterRound:
 
         :param letter: User guess
         :return: Boolean
-        >>> letter_round = LetterRound()
+        >>> letter_round = LetterRound('casa')
         >>> letter_round.validate_input('abc')
         Please enter a single letter
         <BLANKLINE>
@@ -255,7 +257,7 @@ def run_game():
         while (len(wrong_guesses) < 6) and not player_found_word:
             remaining_guesses = 6 - guesses
             print('You have {} guesses remaining\n'.format(remaining_guesses))
-            letter_round = LetterRound()
+            letter_round = LetterRound('casa')
             letter = input('Choose a letter: \n\n')
             if letter_round.validate_input(letter):
                 if is_letter_in_word(letter, word, player_name):
