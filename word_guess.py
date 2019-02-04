@@ -52,6 +52,39 @@ class LetterRound:
             return True
         return False
 
+    def player_guessed_word(self, right_guesses, word):
+        """
+        Checks if player guessed word.
+
+        :param right_guesses: List containing user's right guesses
+        :param word: Word chosen by computer to play game
+        :return: Boolean
+        >>> letter_round = LetterRound('casa')
+        >>> letter_round.player_guessed_word([], 'house')
+        False
+        >>> letter_round.player_guessed_word(['a'], 'house')
+        False
+        >>> letter_round.player_guessed_word(['h', 'o', 'u', 's', 'e'], 'house')
+        True
+        """
+
+        for letter in word:
+            if letter not in right_guesses:
+                return False
+        return True
+
+    def append_to_right_guess(self, letter, word):
+        """
+        Add correct guesses to right_guess list.
+
+        :param letter: User guess
+        :param word: Word chosen by computer to play game
+        """
+        for index, character in enumerate(word):
+            if character == letter:
+                location = index
+                right_guesses[location] = letter
+
 
 def get_word_from_api():
     """
@@ -98,19 +131,6 @@ def print_word(right_guesses, show_guesses):
     print('\n')
 
 
-def append_to_right_guess(letter, word):
-    """
-    Add correct guesses to right_guess list.
-
-    :param letter: User guess
-    :param word: Word chosen by computer to play game
-    """
-    for index, character in enumerate(word):
-        if character == letter:
-            location = index
-            right_guesses[location] = letter
-
-
 def is_letter_in_word(letter, word, player_name):
     """
     Indicates if user guess in the word chosen by computer.
@@ -136,27 +156,6 @@ def is_letter_in_word(letter, word, player_name):
     else:
         print('\nAwesome job, {}. The letter {} is in the word\n'.format(player_name, letter))
         return True
-
-
-def player_guessed_word(right_guesses, word):
-    """
-    Checks if player guessed word.
-
-    :param right_guesses: List containing user's right guesses
-    :param word: Word chosen by computer to play game
-    :return: Boolean
-    >>> player_guessed_word([], 'house')
-    False
-    >>> player_guessed_word(['a'], 'house')
-    False
-    >>> player_guessed_word(['h', 'o', 'u', 's', 'e'], 'house')
-    True
-    """
-
-    for letter in word:
-        if letter not in right_guesses:
-            return False
-    return True
 
 
 def calculate_player_score(remaining_guesses):
@@ -257,15 +256,15 @@ def run_game():
         while (len(wrong_guesses) < 6) and not player_found_word:
             remaining_guesses = 6 - guesses
             print('You have {} guesses remaining\n'.format(remaining_guesses))
-            letter_round = LetterRound('casa')
+            letter_round = LetterRound(word)
             letter = input('Choose a letter: \n\n')
             if letter_round.validate_input(letter):
                 if is_letter_in_word(letter, word, player_name):
-                    append_to_right_guess(letter, word)
+                    letter_round.append_to_right_guess(letter, word)
                 else:
                     wrong_guesses.append(letter)
                     guesses += 1
-                if player_guessed_word(right_guesses, word):
+                if letter_round.player_guessed_word(right_guesses, word):
                     player_found_word = True
                 print_word(right_guesses, show_guesses)
 
