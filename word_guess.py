@@ -11,6 +11,46 @@ show_guesses = ''
 leaderboard_file = 'leaderboard'
 
 
+class LetterRound:
+
+    def validate_input(self, letter):
+        """
+        Verifies validity of user input.
+
+        :param letter: User guess
+        :return: Boolean
+        >>> letter_round = LetterRound()
+        >>> letter_round.validate_input('abc')
+        Please enter a single letter
+        <BLANKLINE>
+        False
+        >>> letter_round.validate_input('abc123')
+        Please enter a letter
+        <BLANKLINE>
+        False
+        >>> letter_round.validate_input('a')
+        True
+        >>> letter_round.validate_input('3')
+        Please enter a letter
+        <BLANKLINE>
+        False
+        >>> letter_round.validate_input('')
+        Please enter a letter
+        <BLANKLINE>
+        False
+        """
+
+        if not letter.isalpha():
+            print('Please enter a letter\n')
+        elif len(letter) != 1:
+            print('Please enter a single letter\n')
+        elif letter in wrong_guesses:
+            print('You already tried this letter. Try a different one\n')
+        else:
+            return True
+        return False
+
+
 def get_word_from_api():
     """
     Calls api and gets random word.
@@ -35,43 +75,6 @@ def get_local_word():
     words = ['house', 'casa']
     word = random.choice(words)
     return word
-
-
-def validate_input(letter):
-    """
-    Verifies validity of user input.
-
-    :param letter: User guess
-    :return: Boolean
-    >>> validate_input('abc')
-    Please enter a single letter
-    <BLANKLINE>
-    False
-    >>> validate_input('abc123')
-    Please enter a letter
-    <BLANKLINE>
-    False
-    >>> validate_input('a')
-    True
-    >>> validate_input('3')
-    Please enter a letter
-    <BLANKLINE>
-    False
-    >>> validate_input('')
-    Please enter a letter
-    <BLANKLINE>
-    False
-    """
-
-    if not letter.isalpha():
-        print('Please enter a letter\n')
-    elif len(letter) != 1:
-        print('Please enter a single letter\n')
-    elif letter in wrong_guesses:
-        print('You already tried this letter. Try a different one\n')
-    else:
-        return True
-    return False
 
 
 def print_word(right_guesses, show_guesses):
@@ -252,8 +255,9 @@ def run_game():
         while (len(wrong_guesses) < 6) and not player_found_word:
             remaining_guesses = 6 - guesses
             print('You have {} guesses remaining\n'.format(remaining_guesses))
+            letter_round = LetterRound()
             letter = input('Choose a letter: \n\n')
-            if validate_input(letter):
+            if letter_round.validate_input(letter):
                 if is_letter_in_word(letter, word, player_name):
                     append_to_right_guess(letter, word)
                 else:
