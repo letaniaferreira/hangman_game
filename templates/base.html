@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet"
+            href="/static/word_games.css">
+
+    <style>
+    .navbar-default {
+    background-color: black;
+    border-color: black;
+}
+    #brandname {
+        color: white;
+    }
+    .navbar-default .navbar-nav>li>a {
+    color: white;
+}
+    </style>
+
+    <title> {% block title %} TITLE GOES HERE {% endblock %}</title>
+</head>
+<body>
+
+    <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" id="brandname" href="/">Word Guess</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+      <ul class="nav navbar-nav navbar-right">
+
+        <li class="nav_text"><a href="/favorite_spots">Leaderboard Score</a></li>
+        <li class="nav_text"><a href="/registration">Registration</a></li>
+        <li class="nav_text"><a href="/profile">Profile</a></li>
+        <li class="nav_text">{% if "email" in session %}<a href='/logout'>Logout</a>
+        {% else %} <a href='/login'>Login</a>
+        {% endif %}</li>
+
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+
+    <div class='container'>
+ <ul style="list-style-type:none">
+ {% for message in get_flashed_messages() %}
+ <li><h4>{{ message }}</h4></li>
+ {% endfor %}
+ </ul>
+
+ <!--    </div>
+
+    <div id="profile">
+
+        <form action="/profile">
+            <input type="submit" value="User profile">
+        </form> -->
+
+
+
+
+
+    {% block content %} CONTENT GOES HERE {% endblock %}
+     </div>
+
+<script src="http://code.jquery.com/jquery.js"></script>
+
+<!-- You need this in order to use JS-based components in the
+further study. Leave this at the bottom and code above it. -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>
