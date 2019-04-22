@@ -5,20 +5,31 @@ app.secret_key = "ABC"
 
 app.jinja_env.undefined = StrictUndefined
 
-@app.route('/')
 
+@app.route('/')
 def main_page():
     """Homepage"""
 
     return render_template('main_page.html')
 
+
+@app.route('/explain_game')
+def explain_game():
+    """Explain game and ask user to choose first letter"""
+
+    player_name = request.args.get('player_name')
+
+    return render_template('explain_game.html', player_name=player_name)
+
+
 @app.route('/choose_letter')
 def choose_letter():
     """Ask user to choose a letter"""
 
-    player_name = request.form.get('player_name')
+    letter = request.args.get('letter')
 
-    return render_template('choose_letter.html', player_name = player_name)
+    return render_template('choose_letter.html', letter=letter)
+
 
 if __name__ == "__main__":
     app.debug = True
