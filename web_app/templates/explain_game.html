@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %} Choose a letter {% endblock %}
+
+
+{% block content %}
+
+
+
+<div class"row">
+    <div class="col-xs-12 text">
+        </span><h2>Hello, {{ player_name }}!</h2>
+        <br>
+        <br>
+        <br>
+        </span><h2>Try to guess the word I am thinking of</h2>
+        <br>
+        <br>
+        <br>
+        </span><h2>You have XXX guesses remaining.</h2>
+        <br>
+        <br>
+        <br>
+    </span><h2>Choose a letter:</h2>
+        <br>
+        <br>
+        <br>
+    <form action='/choose_letter'>
+    <div class='forms'>
+    <input type='text' name='player_name'>
+    <input type='Submit' />
+        <br>
+        <br>
+        <br>
+    </div>
+
+</div>
+
+
+{% endblock %}
