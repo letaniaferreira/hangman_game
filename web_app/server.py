@@ -30,11 +30,11 @@ def explain_game():
     return render_template('explain_game.html', player_name=player_name, remaining_guesses=session['remaining_guesses'])
 
 
-@app.route('/choose_letter')
+@app.route('/choose_letter', methods=['POST'])
 def choose_letter():
     """Ask user to choose a letter"""
 
-    letter = request.args.get('letter')
+    letter = request.form.get('letter')
     word = session['word']
     remaining_guesses = session['remaining_guesses'] - 1
     session['remaining_guesses'] = remaining_guesses
