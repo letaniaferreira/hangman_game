@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect, session, flash
 from jinja2 import StrictUndefined
 import word_guess_web_app
+from word_guess_web_app import LetterRound
 app = Flask(__name__)
 app.secret_key = "ABC"
 
@@ -23,6 +24,7 @@ def explain_game():
     word = word_guess_web_app.get_word_from_api()
     size = len(word)
 
+    session['player_name'] = player_name
     session['word'] = word
     session['remaining_guesses'] = 6
 
@@ -35,11 +37,17 @@ def choose_letter():
     """Ask user to choose a letter"""
 
     letter = request.form.get('letter')
+    player_name = session['player_name']
     word = session['word']
+    print(type(word))
     remaining_guesses = session['remaining_guesses'] - 1
     session['remaining_guesses'] = remaining_guesses
 
-    return render_template('choose_letter.html', letter=letter, remaining_guesses=remaining_guesses)
+    letter_round = LetterRound(word)
+    is_letter_in_word = letter_round.is_letter_in_word(letter, player_name)
+    
+
+    return render_template('choose_letter.html', letter=letter, remaining_guesses=remaining_guesses, is_letter_in_word=is_letter_in_word)
 
 
 if __name__ == "__main__":
