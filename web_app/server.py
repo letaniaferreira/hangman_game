@@ -45,9 +45,12 @@ def choose_letter():
 
     letter_round = LetterRound(word)
     is_letter_in_word = letter_round.is_letter_in_word(letter, player_name)
-    
+    if is_letter_in_word == True:
+        message = 'Awesome job, {}! This letter is in the word:  {}'.format(player_name, letter)
+    else:
+        message = 'Sorry, {}! This letter is not in the word:  {}'.format(player_name, letter)
 
-    return render_template('choose_letter.html', letter=letter, remaining_guesses=remaining_guesses, is_letter_in_word=is_letter_in_word)
+    return render_template('choose_letter.html', remaining_guesses=remaining_guesses, message=message)
 
 
 if __name__ == "__main__":
