@@ -44,12 +44,14 @@ def choose_letter():
     session['remaining_guesses'] = remaining_guesses
 
     letter_round = LetterRound(word)
-    is_letter_in_word = letter_round.is_letter_in_word(letter, player_name)
-    if is_letter_in_word == True:
-        message = 'Awesome job, {}! This letter is in the word:  {}'.format(player_name, letter)
+    if letter_round.validate_input(letter):
+        is_letter_in_word = letter_round.is_letter_in_word(letter, player_name)
+        if is_letter_in_word == True:
+            message = 'Awesome job, {}! This letter is in the word:  {}'.format(player_name, letter)
+        else:
+            message = 'Sorry, {}! This letter is not in the word:  {}'.format(player_name, letter)
     else:
-        message = 'Sorry, {}! This letter is not in the word:  {}'.format(player_name, letter)
-
+        message = 'Please enter a valid input'
     return render_template('choose_letter.html', remaining_guesses=remaining_guesses, message=message)
 
 

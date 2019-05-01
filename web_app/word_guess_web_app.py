@@ -244,44 +244,44 @@ def run_game():
     """
     Game loop
     """
-    player_name = input('What is your name?\n')
-    print('Hello {}! Try to guess the word I am thinking of.\n'.format(player_name))
-    start_game = True
-    while start_game:
+    # player_name = input('What is your name?\n')
+    # print('Hello {}! Try to guess the word I am thinking of.\n'.format(player_name))
+    # start_game = True
+    # while start_game:
 
-        initialize_variables(get_word_from_api())
-        print('The word you are trying to guess has {} letters.'.format(size))
-
-        player_found_word = False
-        guesses = 0
-        while (len(wrong_guesses) < 6) and not player_found_word:
-            remaining_guesses = 6 - guesses
-            print('You have {} guesses remaining\n'.format(remaining_guesses))
-            letter_round = LetterRound(word)
-            letter = input('Choose a letter: \n\n')
-            if letter_round.validate_input(letter):
-                if letter_round.is_letter_in_word(letter, player_name):
-                    letter_round.append_to_right_guess(letter)
-                else:
-                    wrong_guesses.append(letter)
-                    guesses += 1
-                if letter_round.player_guessed_word(right_guesses):
-                    player_found_word = True
-                print_word(right_guesses, show_guesses)
-
-        if player_found_word:
-            print('Great job, {}! You guessed the word!'.format(player_name))
-            player_score = calculate_player_score(remaining_guesses)
-            print('You scored {} points in this round.\n'.format(player_score))
-            total_score = add_to_leaderboard(player_name, player_score)
-            show_top_five_on_leaderboard()
-            print('\nHere is your score in the leaderboard: {}'.format(total_score))
+        # initialize_variables(get_word_from_api())
+        # print('The word you are trying to guess has {} letters.'.format(size))
+        #
+        # player_found_word = False
+        # guesses = 0
+        # while (len(wrong_guesses) < 6) and not player_found_word:
+        #     remaining_guesses = 6 - guesses
+        #     print('You have {} guesses remaining\n'.format(remaining_guesses))
+            #letter_round = LetterRound(word)
+            #letter = input('Choose a letter: \n\n')
+    if letter_round.validate_input(letter):
+        if letter_round.is_letter_in_word(letter, player_name):
+            letter_round.append_to_right_guess(letter)
         else:
-            print('You did not get it this time, {}. The word was: {}.'.format(player_name, word))
+            wrong_guesses.append(letter)
+            guesses += 1
+        if letter_round.player_guessed_word(right_guesses):
+            player_found_word = True
+        print_word(right_guesses, show_guesses)
 
-        new_round = input('Would you like to play again? Please enter yes or no (default: yes) > ')
-        if new_round.lower() == 'no':
-            start_game = False
+    if player_found_word:
+        print('Great job, {}! You guessed the word!'.format(player_name))
+        player_score = calculate_player_score(remaining_guesses)
+        print('You scored {} points in this round.\n'.format(player_score))
+        total_score = add_to_leaderboard(player_name, player_score)
+        show_top_five_on_leaderboard()
+        print('\nHere is your score in the leaderboard: {}'.format(total_score))
+    else:
+        print('You did not get it this time, {}. The word was: {}.'.format(player_name, word))
+
+    new_round = input('Would you like to play again? Please enter yes or no (default: yes) > ')
+    if new_round.lower() == 'no':
+        start_game = False
 
 
 if __name__ == "__main__":
