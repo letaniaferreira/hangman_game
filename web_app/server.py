@@ -21,8 +21,9 @@ def explain_game():
 
     player_name = request.form.get('player_name')
 
-    word = word_guess_web_app.get_word_from_api()
-    size = len(word)
+    #word = word_guess_web_app.get_word_from_api()
+    word = word_guess_web_app.get_local_word()
+
 
     session['player_name'] = player_name
     session['word'] = word
@@ -42,21 +43,24 @@ def choose_letter():
     print(type(word))
     remaining_guesses = session['remaining_guesses'] - 1
     session['remaining_guesses'] = remaining_guesses
+    session['wrong_guesses'] = []
+    session['right_guesses'] = []
 
     letter_round = LetterRound(word)
     if letter_round.validate_input(letter):
         is_letter_in_word = letter_round.is_letter_in_word(letter, player_name)
         if is_letter_in_word == True:
+            session['right_guesses'].append(letter)
             message = 'Awesome job, {}! This letter is in the word:  {}'.format(player_name, letter)
         else:
+            session['wrong_guesses'].append(letter)
+
             message = 'Sorry, {}! This letter is not in the word:  {}'.format(player_name, letter)
     else:
         message = 'Please enter a valid input'
 
-    print_word = word_guess_web_app.print_word #need to update show_guesses
-    wrong_guesses = word_guess_web_app.wrong_guesses # need to update wrong_guesses is empty
 
-    return render_template('choose_letter.html', remaining_guesses=remaining_guesses, message=message, print_word=print_word, wrong_guesses=wrong_guesses)
+    return render_template('choose_letter.html', remaining_guesses=remaining_guesses, message=message, wrong_guesses=session['wrong_guesses'], right_guesses=session['right_guesses'])
 
 
 if __name__ == "__main__":

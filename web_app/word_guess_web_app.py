@@ -139,7 +139,7 @@ def get_local_word():
     return word
 
 
-def print_word(right_guesses, show_guesses):
+def print_word(right_guesses, wrong_gueses, show_guesses):
     """
     Prints the portions of the word that have been guessed and a list of letters
     which were guessed that are not in the word.
@@ -152,10 +152,10 @@ def print_word(right_guesses, show_guesses):
         if letter == '':
             letter = '_'
         show_guesses += (letter + ' ')
-    print(show_guesses + '\n')
-    print('Letters you have tried that are not in the word:')
-    print(wrong_guesses)
-    print('\n')
+    return(show_guesses)
+    # print('Letters you have tried that are not in the word:')
+    # print(wrong_guesses)
+    # print('\n')
 
 
 
