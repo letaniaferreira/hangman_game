@@ -52,7 +52,11 @@ def choose_letter():
             message = 'Sorry, {}! This letter is not in the word:  {}'.format(player_name, letter)
     else:
         message = 'Please enter a valid input'
-    return render_template('choose_letter.html', remaining_guesses=remaining_guesses, message=message)
+
+    print_word = word_guess_web_app.print_word #need to update show_guesses
+    wrong_guesses = word_guess_web_app.wrong_guesses # need to update wrong_guesses is empty
+
+    return render_template('choose_letter.html', remaining_guesses=remaining_guesses, message=message, print_word=print_word, wrong_guesses=wrong_guesses)
 
 
 if __name__ == "__main__":

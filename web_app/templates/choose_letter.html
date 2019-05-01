@@ -9,20 +9,19 @@
 
 <div class"row">
     <div class="col-xs-12 text">
-        </span><h2> {{ message }}</h2>
+        </span><h3> {{ message }}</h3>
         <br>
         <br>
-        <br>
-        </span><h2>Letters you have tried that are not in the word: list_of_letters_will_go_here</h2>
-        <br>
+        </span><h3>Letters you have tried that are not in the word: {{ wrong_guesses }}</h3>
         <br>
         <br>
-        </span><h2>You have {{ remaining_guesses }} guesses remaining.</h2>
+        </span><h2>Here are your correct guesses: {{ print_word }}</h2>
         <br>
         <br>
+        </span><h3>You have {{ remaining_guesses }} guesses remaining.</h3>
         <br>
-    </span><h2>Choose another letter:</h2>
         <br>
+    </span><h3>Choose another letter:</h3>
         <br>
         <br>
     <form action='/choose_letter' method="POST">

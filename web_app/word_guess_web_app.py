@@ -13,7 +13,7 @@ leaderboard_file = 'leaderboard'
 
 class LetterRound:
     def __init__(self, word):
-        self.word = word
+        self.word = word #attribute
 
     def validate_input(self, letter):
         """
