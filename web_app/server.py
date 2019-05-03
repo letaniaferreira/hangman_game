@@ -38,16 +38,17 @@ def choose_letter():
     """Ask user to choose a letter"""
 
     letter = request.form.get('letter')
+    remaining_guesses = session['remaining_guesses']
     player_name = session['player_name']
     word = session['word']
-    print(type(word))
-    remaining_guesses = session['remaining_guesses'] - 1
+
     session['remaining_guesses'] = remaining_guesses
     session['wrong_guesses'] = []
     session['right_guesses'] = []
 
     letter_round = LetterRound(word)
     if letter_round.validate_input(letter):
+        remaining_guesses = session['remaining_guesses'] - 1
         is_letter_in_word = letter_round.is_letter_in_word(letter, player_name)
         if is_letter_in_word == True:
             session['right_guesses'].append(letter)
